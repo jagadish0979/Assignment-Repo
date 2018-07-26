@@ -1,0 +1,11 @@
+<div class="table-title">
+	<h2>Rabobank Customer Statement Processor</h2>
+</div>
+<br/><br/><br/><br/><br/><br/>
+<div align="center">
+<form id="assignmentForm" method="POST" enctype="multipart/form-data" >
+<label class="label">Upload CSV Or XML File</label><br/><br/><br/>
+<input type="file" accept=".csv,application/xml" id="myFile" ng-model = "myFile"  class="label" data-rule-required="true" />
+<button ng-click="processFile()" class="button">Process</button>
+</form>
+</div>
