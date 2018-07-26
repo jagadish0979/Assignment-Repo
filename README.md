@@ -19,10 +19,11 @@ Consul Execution
 2)  Extract to a folder
 3)	Go to command prompt
 4)	Go to consul folder
-5)	Execute consul.cmd (It’s a prerequisite for spring boot application)
-6)	Go to URL : http://localhost:8050/ui - Here we can see consul  container ui consists of all services
-7)	Initially we will be having only consul service is running.
-8)	Following is the screen shot for the consul container UI
+5)  Rename consul.txt to consul.exe
+6)	Execute consul.cmd (It’s a prerequisite for spring boot application)
+7)	Go to URL : http://localhost:8050/ui - Here we can see consul  container ui consists of all services
+8)	Initially we will be having only consul service is running.
+9)	Following is the screen shot for the consul container UI
 
 Spring Boot Application Excecution
 ----------------------------------------------
