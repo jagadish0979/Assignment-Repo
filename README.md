@@ -15,13 +15,14 @@ Deployment
 
 Consul Execution
 ---------------
-1)	Download Consul Folder from the shared location.
-2)	Go to command prompt
-3)	Go to consul folder
-4)	Execute consul.cmd (It’s a prerequisite for spring boot application)
-5)	Go to URL : http://localhost:8050/ui - Here we can see consul  container ui consists of all services
-6)	Initially we will be having only consul service is running.
-7)	Following is the screen shot for the consul container UI
+1)	Download consul.zip file from the shared location.
+2)  Extract to a folder
+3)	Go to command prompt
+4)	Go to consul folder
+5)	Execute consul.cmd (It’s a prerequisite for spring boot application)
+6)	Go to URL : http://localhost:8050/ui - Here we can see consul  container ui consists of all services
+7)	Initially we will be having only consul service is running.
+8)	Following is the screen shot for the consul container UI
 
 Spring Boot Application Excecution
 ----------------------------------------------
