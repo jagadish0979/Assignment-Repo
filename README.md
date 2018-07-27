@@ -37,7 +37,7 @@ Spring Boot Application Execution
 9) make sure consul, CognizantAssignments-service and CognizantAssignments-Service-management are running with out any issues.
 10) Go to Spring Boot Application URL http://localhost:9080/assignments.
 11) You will get a login page. Login to the application using admin/admin.
-12) If user failed to login teh application will redirect to error login page.
+12) If user failed to login the application will redirect to error login page.
 13) if success it will go to the main page.
 
 Testing
