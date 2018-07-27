@@ -21,27 +21,6 @@ public class IParserFactory {
 	@Autowired
 	private CSVParser csvParser;
 
-	
-	public XMLParser getXmlParser() {
-		return xmlParser;
-	}
-
-
-	public void setXmlParser(XMLParser xmlParser) {
-		this.xmlParser = xmlParser;
-	}
-
-
-	public CSVParser getCsvParser() {
-		return csvParser;
-	}
-
-
-	public void setCsvParser(CSVParser csvParser) {
-		this.csvParser = csvParser;
-	}
-
-
 	/**
 	 * gets the parser basing on the type of file
 	 * 

@@ -2,7 +2,6 @@ package com.assignments.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.assignments.domain.CustomerRecord;
 import com.assignments.service.XmlToObjectService;
 
-
 /**
  * @author Jagadish Anala
  *
@@ -29,18 +27,15 @@ public class XmlToObjectServiceImpl implements XmlToObjectService {
 	public CustomerRecord getXmlRecords(String xmlFileContent) {
 		CustomerRecord customerRecord = null;
 		try {
-			logger.info("Inside getXmlRecords *******!");
-	        File file = writeUsingFileWriter("records.xml", xmlFileContent);
-	        
+			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
+			File file = writeUsingFileWriter("records.xml", xmlFileContent);
 			JAXBContext jaxbContext = JAXBContext.newInstance(CustomerRecord.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			customerRecord = (CustomerRecord) jaxbUnmarshaller.unmarshal(file);
-			logger.info("customerRecord=========>"+customerRecord);			
 			return customerRecord;
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		finally {
+		} finally {
 			return customerRecord;
 		}
 	}

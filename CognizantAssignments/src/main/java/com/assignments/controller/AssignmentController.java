@@ -1,6 +1,5 @@
 package com.assignments.controller;
 
-import java.util.Date;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,15 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.WebRequest;
 
 import com.assignments.constant.FileType;
 import com.assignments.domain.CustomerStatement;
-import com.assignments.domain.ErrorDetails;
 import com.assignments.domain.FileModel;
 import com.assignments.factory.IParserFactory;
 import com.assignments.parser.IParser;

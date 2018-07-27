@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.assignments.domain.LoginModel;
 import com.assignments.domain.Result;
+import com.assignments.service.LoginService;
 
 /**
  * @author Jagadish Anala
@@ -29,10 +30,13 @@ public class LoginController {
 	@Autowired
 	private Environment env;
 	
+	@Autowired
+	private LoginService loginService;
+	
 	@PostMapping(value = "/doLogin", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Result> doLogin(@RequestBody LoginModel loginModel) throws LoginException {
+	public ResponseEntity<Result> doLogin(@RequestBody LoginModel loginModel) throws LoginException,Exception {
 		logger.info("Trying to login using userName [ " + loginModel.getUserName() +" ] and password [ " + loginModel.getPassword() + " ]" );
-		if("admin".equals(loginModel.getUserName()) && "admin".equals(loginModel.getPassword())) {
+		if(loginService.validateLogin(loginModel)) {
 			Result result = new Result();
 			result.setMessage("Success");
 			result.setUrl("/main");
