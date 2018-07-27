@@ -23,7 +23,6 @@ Consul Execution
 6)	Execute consul.cmd (It’s a prerequisite for spring boot application)
 7)	Go to URL : http://localhost:8050/ui - Here we can see consul  container ui consists of all services
 8)	Initially we will be having only consul service is running.
-9)	Following is the screen shot for the consul container UI
 
 Spring Boot Application Excecution
 ----------------------------------------------
