@@ -44,7 +44,7 @@ angular
 	    		}
 	    		assignmentFEDataFactory.set(lines);
 	            console.log("lines [ " + lines + " ]");
-			    $location.path('/assignments-fe-result');
+			    $window.location.href = '/assignments/#!/assignments-fe-result';
 	        }
 	        fileReader.onerror = function (evt) {
 	            $scope.fileContent = "error";

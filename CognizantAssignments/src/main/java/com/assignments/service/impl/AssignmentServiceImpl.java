@@ -15,13 +15,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 
 import com.assignments.domain.CustomerRecord;
 import com.assignments.domain.CustomerStatement;
@@ -42,6 +43,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 	@Autowired
 	private XmlToObjectService xmlToObjectService;
+
+	@Autowired
+	private Environment env;
 
 	@Override
 	public CustomerStatement[] processCSV(String fileContent) throws CSVException {
@@ -70,6 +74,19 @@ public class AssignmentServiceImpl implements AssignmentService {
 	public CustomerStatement[] processXML(String xmlFileContent) throws XMLException {
 		CustomerStatement[] customerStatements = null;
 		try {
+			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
+			logger.info("xmlFileContent.indexOf(\"\\\"\") [ " + xmlFileContent.indexOf("\"") + " ]");
+			
+			if (xmlFileContent.indexOf("\"") == 0) {
+				xmlFileContent = xmlFileContent.substring(1, xmlFileContent.length() - 1);
+			}
+			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
+			xmlFileContent = xmlFileContent.replaceAll("\n", "");
+			xmlFileContent = xmlFileContent.replaceAll("    ", "");
+//			xmlFileContent = xmlFileContent.replaceAll("\\"", """);
+
+			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
+
 			xmlFileContent = formatXmlContent(xmlFileContent);
 			CustomerRecord customerRecord = xmlToObjectService.getXmlRecords(xmlFileContent);
 
@@ -102,43 +119,61 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 	private String[] getLines(String fileContent) throws CSVException {
 		logger.info("filecontent [ " + fileContent + " ]");
-		while (fileContent.indexOf("\r\n") != -1) {
-			int index = fileContent.indexOf("\r\n");
-			fileContent = fileContent.substring(0, index).concat("@")
-					.concat(fileContent.substring(index + 2, fileContent.length()));
-		}
-		logger.info("filecontent [ " + fileContent + " ]");
 
 		while (fileContent.indexOf("\\n") != -1) {
 			int index = fileContent.indexOf("\\n");
 			fileContent = fileContent.substring(0, index).concat("@")
 					.concat(fileContent.substring(index + 2, fileContent.length()));
 		}
-		fileContent = fileContent.replaceAll("\"", "").trim();
+		if (fileContent.indexOf("\"") == 0) {
+			fileContent = fileContent.substring(1, fileContent.length() - 1);
+		}
 		String[] lines = new String[0];
-		if(fileContent.indexOf("@")!=-1) lines = fileContent.split("@");
+		if (fileContent.indexOf("@") != -1)
+			lines = fileContent.split("@");
+		else
+			throw new CSVException(env.getProperty("error.file.invalid"));
+
 		return lines;
 	}
-
-	public String formatXmlContent(String xmlFileContent) {
-		try {
-			Document document = parseXmlFile(xmlFileContent);
-
-			OutputFormat format = new OutputFormat(document);
-			format.setLineWidth(65);
-			format.setIndenting(true);
-			format.setIndent(2);
-			Writer out = new StringWriter();
-			XMLSerializer serializer = new XMLSerializer(out, format);
-			serializer.serialize(document);
-			return out.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
-
-	}
+//
+//	public String formatXmlContent(String xmlFileContent) {
+//		try {
+//			Document document = parseXmlFile(xmlFileContent);
+//
+//			OutputFormat format = new OutputFormat(document);
+//			format.setLineWidth(65);
+//			format.setIndenting(true);
+//			format.setIndent(2);
+//			Writer out = new StringWriter();
+//			XMLSerializer serializer = new XMLSerializer(out, format);
+//			serializer.serialize(document);
+//			return out.toString();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return "";
+//		}
+//
+//	}
 	
+	private String formatXmlContent(String fileContent) {
+		fileContent = fileContent.replaceAll("    ", "");
+		fileContent = fileContent.substring(1);
+		fileContent = fileContent.substring(0, fileContent.length() - 1);
+		while (fileContent.indexOf("\\n") != -1) {
+			int index = fileContent.indexOf("\\n");
+			fileContent = fileContent.substring(0, index)
+					.concat(fileContent.substring(index + 2, fileContent.length()));
+		}
+		while (fileContent.indexOf("\\") != -1) {
+			int index = fileContent.indexOf("\\");
+			fileContent = fileContent.substring(0, index)
+					.concat(fileContent.substring(index + 1, fileContent.length()));
+		}
+		fileContent = "<" + fileContent +">" ;
+		return fileContent;
+	}
+
 	private Document parseXmlFile(String in) {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -154,7 +189,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 		return null;
 	}
-	
+
 	private List<CustomerStatement> findDuplicateReferenceNumberList(List<CustomerStatement> originalList) {
 		// Group records by reference number
 		Map<Integer, List<CustomerStatement>> recordsByReferece = originalList.stream()
