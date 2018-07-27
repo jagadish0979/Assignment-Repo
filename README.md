@@ -44,7 +44,8 @@ Spring Boot Application Excecution
 
 Testing
 -------
-Perform end to end functional testing basing on functionality availbale on the application.
+1) JUnit Test cases written for all functionalities. All are getting passed. While executing Spring Boot Application we can see all the tests passed in the maven build.
+2) Perform end to end functional testing basing on functionality availbale on the application.
 
 Technologies Used
 -----------------
