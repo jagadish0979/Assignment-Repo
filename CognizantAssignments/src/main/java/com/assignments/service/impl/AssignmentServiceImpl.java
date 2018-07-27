@@ -83,7 +83,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
 			xmlFileContent = xmlFileContent.replaceAll("\n", "");
 			xmlFileContent = xmlFileContent.replaceAll("    ", "");
-//			xmlFileContent = xmlFileContent.replaceAll("\\"", """);
 
 			logger.info("xmlFileContent [ " + xmlFileContent + " ]");
 
@@ -136,25 +135,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 		return lines;
 	}
-//
-//	public String formatXmlContent(String xmlFileContent) {
-//		try {
-//			Document document = parseXmlFile(xmlFileContent);
-//
-//			OutputFormat format = new OutputFormat(document);
-//			format.setLineWidth(65);
-//			format.setIndenting(true);
-//			format.setIndent(2);
-//			Writer out = new StringWriter();
-//			XMLSerializer serializer = new XMLSerializer(out, format);
-//			serializer.serialize(document);
-//			return out.toString();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return "";
-//		}
-//
-//	}
 	
 	private String formatXmlContent(String fileContent) {
 		fileContent = fileContent.replaceAll("    ", "");
@@ -172,22 +152,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}
 		fileContent = "<" + fileContent +">" ;
 		return fileContent;
-	}
-
-	private Document parseXmlFile(String in) {
-		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource(new StringReader(in));
-			return db.parse(is);
-		} catch (ParserConfigurationException e) {
-			throw new RuntimeException(e);
-		} catch (SAXException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	private List<CustomerStatement> findDuplicateReferenceNumberList(List<CustomerStatement> originalList) {
@@ -220,8 +184,8 @@ public class AssignmentServiceImpl implements AssignmentService {
 		List<CustomerStatement> resultList = new ArrayList<CustomerStatement>();
 		List<CustomerStatement> duplicateReferenceNumberList = findDuplicateReferenceNumberList(originalList);
 		List<CustomerStatement> invalidEndBalanceList = findInvalidEndBalaceList(originalList);
-		duplicateReferenceNumberList.forEach(d -> d.setFailedReason("Duplicate Reference Number"));
-		invalidEndBalanceList.forEach(i -> i.setFailedReason("Invalid End Balance"));
+		duplicateReferenceNumberList.forEach(d -> d.setFailedReason(env.getProperty("error.data.referene_number")));
+		invalidEndBalanceList.forEach(i -> i.setFailedReason(env.getProperty("error.data.end_balance")));
 		resultList.addAll(duplicateReferenceNumberList);
 		resultList.addAll(invalidEndBalanceList);
 		Object[] customerStatements = resultList.toArray();
