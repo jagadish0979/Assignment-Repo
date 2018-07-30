@@ -13,18 +13,6 @@ Install JDK 1.8
 Deployment
 ----------
 
-Consul Execution
-----------------
-1) Download consul.zip file from the shared location.
-2) Extract to a folder.
-3) Go to command prompt.
-4) Go to consul folder.
-5) Rename consul.txt to consul.exe
-6) Execute consul.cmd (It’s a prerequisite for spring boot application).
-7) Go to URL : http://localhost:8050/ui - Here we can see consul container ui consists of all services
-Initially we will be having only consul service is running.
-
-
 Spring Boot Application Execution
 -------------------------------------
 1) Download CognizantAssignments project from the shared location.
@@ -32,13 +20,10 @@ Spring Boot Application Execution
 3) Go to CognizantAssignments project root folder.
 5) Execute run.cmd.
 6) After executing run.cmd it will build and start the application.
-7) Go to URL : http://localhost:8050/ui - Here we can see consul container ui consists of all services.
-8) We can see three services running.
-9) make sure consul, CognizantAssignments-service and CognizantAssignments-Service-management are running with out any issues.
-10) Go to Spring Boot Application URL http://localhost:9080/assignments.
-11) You will get a login page. Login to the application using admin/admin.
-12) If user failed to login the application will redirect to error login page.
-13) if success it will go to the main page.
+7) Go to Spring Boot Application URL http://localhost:9080/assignments.
+8) You will get a login page. Login to the application using admin/admin.
+9) If user failed to login the application will redirect to error login page.
+10) if success it will go to the main page.
 
 Testing
 -------
